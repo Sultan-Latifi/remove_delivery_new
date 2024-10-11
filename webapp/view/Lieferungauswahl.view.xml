@@ -1,0 +1,110 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:core="sap.ui.core"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	controllerName="com.mindsquare.mde_remove_delivery.mind2_mde_2_remove_delivery.controller.Lieferungauswahl" displayBlock="true">
+	<!--<Shell id="shell">-->
+	<App id="app">
+		<pages>
+			<Page id="page" title="{i18n>title}" showHeader="false">
+				<content>
+					<smartFilterBar:SmartFilterBar id="smartFilterBar" entitySet="DeliverySet" filterBarExpanded="true">
+						<smartFilterBar:controlConfiguration>
+							<!--<smartFilterBar:ControlConfiguration key="Wbstk" visibleInAdvancedArea="true"/>-->
+							<smartFilterBar:ControlConfiguration key="Wbstk"  visibleInAdvancedArea="true">
+							<!-- label="Custom Select Field" -->
+								<smartFilterBar:customControl>
+									<Select id="customSelect" customData:hasValue="true" width="300px">
+										<core:Item key="A" text="{i18n>notposted}"/>
+										<core:Item key="B" text="{i18n>notfullyposted}"/>
+										<core:Item key="C" text="{i18n>alreadyposted}"/>
+									</Select>
+								</smartFilterBar:customControl>
+							</smartFilterBar:ControlConfiguration>
+							<smartFilterBar:ControlConfiguration key="Vbeln"  visibleInAdvancedArea="true">
+							<!-- label="Custom Select Field" -->
+								<smartFilterBar:customControl>
+									<Input id="customInput" customData:hasValue="true" width="300px"/>										
+								</smartFilterBar:customControl>
+							</smartFilterBar:ControlConfiguration>
+							<!--<ControlConfiguration key="CREATION_DATE" visibleInAdvancedArea="true"-->
+							<!--	conditionType="{ module: 'sap.ui.comp.config.condition.DateRangeType' }"/>-->
+							<!--<ControlConfiguration key="CLOSE_DATE" visibleInAdvancedArea="true"-->
+							<!--	conditionType="{ module: 'sap.ui.comp.config.condition.DateRangeType', defaultOperation: 'THISYEAR' }"/>-->
+						</smartFilterBar:controlConfiguration>
+						<!-- layout data used to make the table growing but the filter bar fixed -->
+						<!--<layoutData>-->
+						<!--	<m:FlexItemData shrinkFactor="0"/>-->
+						<!--</layoutData>-->
+					</smartFilterBar:SmartFilterBar>
+					<smartTable:SmartTable id="smartTableGI" entitySet="DeliverySet" smartFilterId="smartFilterBar" header="{i18n>StartseiteSmartTableHeader}"
+						showRowCount="true" tableType="Table" useExportToExcel="true" enableAutoBinding="true" useVariantManagement="true"
+						showVariantManagement="true" showFullScreenButton="true" initiallyVisibleFields="Vbeln,Kodat,Name1"
+						requestAtLeastFields="Vbeln,Kodat,Erdat,Ernam,Wbstk,Kunnr,Name1" beforeRebindTable="onBeforeRebindTable">
+						<!-- Erdat,Ernam,Kunnr, -->
+						<Table id="tabletest" noDataText="{i18n>OverviewSmartTableNoData}" width="auto" sticky="ColumnHeaders" growing="true"
+							growingScrollToLoad="true" growingThreshold="50" mode="MultiSelect">
+							<columns>
+								<Column>
+									<customData>
+										<core:CustomData key="p13nData"
+											value="\{&quot;columnKey&quot;: &quot;Vbeln&quot;,&quot;leadingProperty&quot;: &quot;Vbeln&quot;,&quot;filterProperty&quot;: &quot;Vbeln&quot;,&quot;sortProperty&quot;: &quot;Vbeln&quot;,&quot;columnIndex&quot;:&quot;0&quot;}"/>
+									</customData>
+									<Text text="{/DeliverySet/Vbeln/#@sap:label}"/>
+								</Column>
+								<Column>
+									<customData>
+										<core:CustomData key="p13nData"
+											value="\{&quot;columnKey&quot;: &quot;Kodat&quot;,&quot;leadingProperty&quot;: &quot;Kodat&quot;,&quot;sortProperty&quot;: &quot;Kodat&quot;,&quot;columnIndex&quot;:&quot;1&quot;,&quot;type&quot;: &quot;date&quot;}"/>
+									</customData>
+									<Text text="{/DeliverySet/Kodat/#@sap:label}"/>
+								</Column>
+								<!-- <Column>
+									<customData>
+										<core:CustomData key="p13nData"
+											value="\{&quot;columnKey&quot;: &quot;Erdat&quot;,&quot;leadingProperty&quot;: &quot;Erdat&quot;,&quot;sortProperty&quot;: &quot;Erdat&quot;,&quot;columnIndex&quot;:&quot;2&quot;,&quot;type&quot;: &quot;date&quot;}"/>
+									</customData>
+									<Text text="{/DeliverySet/Erdat/#@sap:label}"/>
+								</Column>
+								<Column>
+									<customData>
+										<core:CustomData key="p13nData"
+											value="\{&quot;columnKey&quot;: &quot;Ernam&quot;,&quot;leadingProperty&quot;: &quot;Ernam&quot;,&quot;sortProperty&quot;: &quot;Ernam&quot;,&quot;columnIndex&quot;:&quot;3&quot;}"/>
+									</customData>
+									<Text text="{/DeliverySet/Ernam/#@sap:label}"/>
+								</Column> -->
+								<!--<Column >-->
+								<!--	<customData>-->
+								<!--		<core:CustomData key="p13nData"-->
+								<!--			value="\{&quot;columnKey&quot;: &quot;Wbstk&quot;,&quot;leadingProperty&quot;: &quot;Wbstk&quot;,&quot;filterProperty&quot;: &quot;Wbstk&quot;,&quot;columnIndex&quot;:&quot;5&quot;}"/>-->
+								<!--	</customData>-->
+								<!--	<Text text="{/DeliverySet/Wbstk/#@sap:label}"/>-->
+								<!--</Column>-->
+							</columns>
+							<items>
+								<ColumnListItem press="navToDetail" type="Navigation">
+									<FlexBox direction="Column" alignItems="Start">
+										<Title text="{Vbeln}" class="boldText"/>
+									</FlexBox>
+									<Text text="{ path: 'Kodat', type: 'sap.ui.model.type.DateTime', formatOptions: { pattern: 'dd.MM.yy', displayFormat: 'Date', UTC:true } }"/>
+									<!-- <Text text="{ path: 'Erdat', type: 'sap.ui.model.type.DateTime', formatOptions: { pattern: 'dd.MM.yy', displayFormat: 'Date', UTC:true } }"/>
+									<Text text="{Ernam}"/> -->
+									<!--<Text text="{Wbstk}"/>-->
+								</ColumnListItem>
+							</items>
+						</Table>
+						<smartTable:items></smartTable:items>
+					</smartTable:SmartTable>
+				</content>
+				<footer>
+					<Toolbar class="sapContrast sapContrastPlus" width="100%" id="toolbar4">
+						<content>
+							<!--<ToggleButton xmlns="sap.m" text="Toggle Button" id="button2"/>-->
+							<HBox width="100%" id="hbox0"/>
+							<Button xmlns="sap.m" text="{i18n>postbutton}" id="postbutton" type="Accept" press="onButtonPostPressNew"/>
+						</content>
+					</Toolbar>
+				</footer>
+			</Page>
+		</pages>
+	</App>
+	<!--</Shell>-->
+</mvc:View>
